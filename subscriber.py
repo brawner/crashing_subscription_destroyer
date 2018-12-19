@@ -66,9 +66,9 @@ def segfault(args=None):
 
     node = Listener()
     sleep(1)
-    node.destroy_subscription(node.sub)
+    node.destroy_subscription(node.sub)  # Crashes
     sleep(1)
-    node.destroy_node()  # Crashes
+    node.destroy_node()
     rclpy.shutdown()
 
 
