@@ -1,16 +1,16 @@
 from queue import Queue
 from time import sleep
 
-from PyQt5.QtCore import qDebug, QThread, qWarning
 import rclpy
 from rclpy.client import Client
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from rclpy.subscription import Subscription
 from std_msgs.msg import String
+from threading import Thread
 
 
-class RclpySpinner(QThread):
+class RclpySpinner(Thread):
 
     def __init__(self, node):
         super().__init__()
@@ -19,7 +19,7 @@ class RclpySpinner(QThread):
         self._listener_queue = Queue()
 
     def run(self):
-        qDebug('Start called on RclpySpinner, spinning ros2 node')
+        print('Start called on RclpySpinner, spinning ros2 node')
         executor = MultiThreadedExecutor()
         executor.add_node(self._node)
         while rclpy.ok() and not self._abort:
@@ -31,10 +31,10 @@ class RclpySpinner(QThread):
                 self._node.destroy_subscription(listener)
 
         if not self._abort:
-            qWarning('rclpy.shutdown() was called before QThread.quit()')
+            print('rclpy.shutdown() was called before QThread.quit()')
 
     def quit(self):  # noqa: A003
-        qDebug('Quit called on RclpySpinner')
+        print('Quit called on RclpySpinner')
         self._abort = True
         super().quit()
 
