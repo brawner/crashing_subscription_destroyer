@@ -73,7 +73,7 @@ def dont_segfault(args=None):
     sleep(1)
     node.spinner.register_listeners_for_destruction(node.sub)  # Does not crash
     sleep(1)
-    node.destroy_node()  # Crashes
+    node.destroy_node()
     rclpy.shutdown()
 
 
